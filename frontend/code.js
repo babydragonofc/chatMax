@@ -90,7 +90,7 @@ const chatMsg = document.querySelector(".chat__msgs");
         chat.style.display = "flex";
 
 
-        websocket = new WebSocket("wss://chatmax-uskl.onrender.com")
+        websocket = new WebSocket("https://chatmax-7tmx.onrender.com")
         websocket.onmessage = processMessage;
 
         //websocket.onopen = () => {websocket.send(`Usuário: ${user.name} entrou no chat!`)}
