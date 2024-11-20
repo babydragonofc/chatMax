@@ -450,9 +450,9 @@ padding: 1em;
 }
 
 .heart:before {
-    top: -100px;
+    top: -40px;
 }
 
 .heart:after {
-    left: 100px;
+    left: 40px;
 }
