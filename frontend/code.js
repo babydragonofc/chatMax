@@ -1,20 +1,25 @@
 //helcome sir
 
 //login elements
-
 const login = document.querySelector(".login");
 const loginForm = document.querySelector(".login__form");
 const loginInput = document.querySelector(".login__input");
 const loginColor = document.querySelector(".login__color");
 
 //chat elements
-
 const chat = document.querySelector(".chat");
 const chatForm = document.querySelector(".chat__form");
 const chatInput = document.querySelector(".chat__input");
 const chatColor = document.querySelector(".chat__color");
 const chatMsg = document.querySelector(".chat__msgs");
 
+//chat create elements
+const chatBtnCreate = document.querySelector("#chat__btn__create");
+const chatCreateConteiner = document.querySelector(".chats__list");
+const chatCreateNameInput = document.querySelector("#chatName__input");
+const chatCreateCard = document.querySelector(".chat__card");
+const chatCreateCloseBtn = document.querySelector(".chatFormClose");
+const chatNewBtn = document.querySelector("chatName__button")
 
 //user
     loginColor.value = "#ff0000"
@@ -90,17 +95,18 @@ const chatMsg = document.querySelector(".chat__msgs");
         chat.style.display = "flex";
 
 
-        websocket = new WebSocket("wss://chatmax-backend.onrender.com")
+        websocket = new WebSocket("ws//localhost:8080") //wss://chatmax-uskl.onrender.com
         websocket.onmessage = processMessage;
 
         //websocket.onopen = () => {websocket.send(`Usuário: ${user.name} entrou no chat!`)}
 
         console.log(user)
 
-        //websocket.onopen = () => { websocket.send(`Usuário: ${user.name} entrou no chat!`)};
+        websocket.onopen = () => { websocket.send(`Usuário: ${user.name} entrou no chat!`)};
     }
 
     const sendMessage = (event) => {
+
         event.preventDefault();
 
         const message = {
@@ -109,11 +115,64 @@ const chatMsg = document.querySelector(".chat__msgs");
             userColor: user.color,
             content: chatInput.value
         }
+
         websocket.send((JSON.stringify(message)))
 
         chatInput.value = "";
     }
-    loginForm.addEventListener("submit", handleSubmit )
 
-    chatForm.addEventListener("submit", sendMessage )
+    const NewChat = (event) => {
+        
+        event.preventDefault(); // Prevent form submission if the button is in a form.
+    
+        chatCreateCard.style.display = "none";
+    
+        // Create the button *inside* the NewChatLog function.
+        const newChatButton = document.createElement("button");
+        
+            const newChatInfo = {
+                creatorId: user.id,
+                creatorName: user.name,
+                content: chatCreateNameInput.value // Get value from input field
+            };
+    
+            newChatButton.textContent = newChatInfo.content;
+
+            console.log(newChatInfo);
+    
+            websocket.send(JSON.stringify(newChatInfo));
+    
+            chatCreateNameInput.value = ""; // Clear input field after sending message.
+    
+    
+        chatCreateConteiner.appendChild(newChatButton);
+    }
+    
+    
+
+    const NewChatLog = (event) => {
+
+        event.preventDefault();
+
+        chatCreateCard.style.display = "flex";
+
+    }
+
+    const CloseNewChatLog = () => {
+
+        chatCreateCard.style.display = "none";
+
+    }
+
+
+    chatCreateCloseBtn.addEventListener("click", CloseNewChatLog)
+
+    chatCreateNameInput.addEventListener("submit", NewChat)
+
+    chatBtnCreate.addEventListener("click", NewChatLog)
+    
+    loginForm.addEventListener("submit", handleSubmit)
+
+    chatForm.addEventListener("submit", sendMessage)
+
 
