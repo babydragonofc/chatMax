@@ -95,7 +95,7 @@ const chatNewBtn = document.querySelector("chatName__button")
         chat.style.display = "flex";
 
 
-        websocket = new WebSocket("wss://chatmax-uskl.onrender.com") //wss://chatmax-uskl.onrender.com
+        websocket = new WebSocket("https://chatmax-backend.onrender.com") //wss://chatmax-uskl.onrender.com
         websocket.onmessage = processMessage;
 
         //websocket.onopen = () => {websocket.send(`Usuário: ${user.name} entrou no chat!`)}
