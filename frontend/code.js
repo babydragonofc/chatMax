@@ -16,10 +16,10 @@ const chatMsg = document.querySelector(".chat__msgs");
 //chat create elements
 const chatBtnCreate = document.querySelector("#chat__btn__create");
 const chatCreateConteiner = document.querySelector(".chats__list");
-const chatCreateNameInput = document.querySelector("#chatName__input");
+const chatCreateNameInput = document.querySelector(".chatName__input");
 const chatCreateCard = document.querySelector(".chat__card");
 const chatCreateCloseBtn = document.querySelector(".chatFormClose");
-const chatNewBtn = document.querySelector("chatName__button")
+const chatNewBtn = document.querySelector(".chatName__button")
 
 //user
     loginColor.value = "#ff0000"
@@ -95,7 +95,7 @@ const chatNewBtn = document.querySelector("chatName__button")
         chat.style.display = "flex";
 
 
-        websocket = new WebSocket("https://chatmax-backend.onrender.com") //wss://chatmax-uskl.onrender.com
+        websocket = new WebSocket("wss//localhost:8080") //wss://chatmax-uskl.onrender.com
         websocket.onmessage = processMessage;
 
         //websocket.onopen = () => {websocket.send(`Usuário: ${user.name} entrou no chat!`)}
@@ -122,13 +122,13 @@ const chatNewBtn = document.querySelector("chatName__button")
     }
 
     const NewChat = (event) => {
-        
+
         event.preventDefault(); // Prevent form submission if the button is in a form.
     
         chatCreateCard.style.display = "none";
     
         // Create the button *inside* the NewChatLog function.
-        const newChatButton = document.createElement("button");
+        const newChatButton = document.createElement("button"); 
         
             const newChatInfo = {
                 creatorId: user.id,
@@ -146,6 +146,7 @@ const chatNewBtn = document.querySelector("chatName__button")
     
     
         chatCreateConteiner.appendChild(newChatButton);
+        
     }
     
     
@@ -167,7 +168,9 @@ const chatNewBtn = document.querySelector("chatName__button")
 
     chatCreateCloseBtn.addEventListener("click", CloseNewChatLog)
 
-    chatCreateNameInput.addEventListener("submit", NewChat)
+    //chatCreateNameInput.addEventListener("submit", NewChat)
+
+    chatNewBtn.addEventListener("click", NewChat)
 
     chatBtnCreate.addEventListener("click", NewChatLog)
     
