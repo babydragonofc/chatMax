@@ -19,7 +19,9 @@ const chatCreateConteiner = document.querySelector(".chats__list");
 const chatCreateNameInput = document.querySelector(".chatName__input");
 const chatCreateCard = document.querySelector(".chat__card");
 const chatCreateCloseBtn = document.querySelector(".chatFormClose");
-const chatNewBtn = document.querySelector(".chatName__button")
+const chatNewBtn = document.querySelector(".chatName__button");
+const chatChangeBtn = document.querySelector(".ChangeConteinerServers");
+const chatSideBar = document.querySelector("#chats__sidebar");
 
 //user
     loginColor.value = "#ff0000"
@@ -71,7 +73,10 @@ const chatNewBtn = document.querySelector(".chatName__button")
     }
 
     const processMessage = ({data}) => {
+        const { type } = JSON.parse(data);
 
+        if ( type === "message") {
+        
         const { userId, userName, userColor, content } = JSON.parse(data);
 
         const message = userId == user.id ? createMessageSelfElement(content) : createMessageOtherElement(content, userName, userColor)
@@ -81,6 +86,26 @@ const chatNewBtn = document.querySelector(".chatName__button")
         chatMsg.appendChild(message)
 
         scrollScreamm()
+
+        }
+
+        else if (type === "newChat") {
+
+            const { creatorId, creatorName, content } = JSON.parse(data);
+
+            newChatButton.textContent = newChatInfo.content;
+
+            console.log(newChatInfo);
+    
+            websocket.send(JSON.stringify(newChatInfo));
+    
+            chatCreateNameInput.value = ""; // Clear input field after sending message.
+    
+    
+        chatCreateConteiner.appendChild(newChatButton);
+
+        }
+
     }
     
     const handleSubmit = (event) => {
@@ -95,7 +120,7 @@ const chatNewBtn = document.querySelector(".chatName__button")
         chat.style.display = "flex";
 
 
-        websocket = new WebSocket("wss://chatmax-backend.onrender.com") //wss://chatmax-uskl.onrender.com
+        websocket = new WebSocket("https://chatmax-backend.onrender.com") //https://chatmax-backend.onrender.com
         websocket.onmessage = processMessage;
 
         //websocket.onopen = () => {websocket.send(`Usuário: ${user.name} entrou no chat!`)}
@@ -110,6 +135,7 @@ const chatNewBtn = document.querySelector(".chatName__button")
         event.preventDefault();
 
         const message = {
+            type: "message",
             userId: user.id,
             userName: user.name,
             userColor: user.color,
@@ -131,22 +157,15 @@ const chatNewBtn = document.querySelector(".chatName__button")
         const newChatButton = document.createElement("button"); 
         
             const newChatInfo = {
+                type: "newChat",
+
                 creatorId: user.id,
                 creatorName: user.name,
                 content: chatCreateNameInput.value // Get value from input field
             };
     
-            newChatButton.textContent = newChatInfo.content;
+            websocket.send((JSON.stringify(newChatInfo)))
 
-            console.log(newChatInfo);
-    
-            websocket.send(JSON.stringify(newChatInfo));
-    
-            chatCreateNameInput.value = ""; // Clear input field after sending message.
-    
-    
-        chatCreateConteiner.appendChild(newChatButton);
-        
     }
     
     
@@ -165,6 +184,22 @@ const chatNewBtn = document.querySelector(".chatName__button")
 
     }
 
+    const ChangeNewContainerStatus = () => {
+
+        if (chatSideBar.classList.contains('chats__containerOpen')) {
+
+            chatSideBar.classList.remove('chats__containerOpen');
+            chatSideBar.classList.add('chats__containerClose');
+
+        } else {
+
+            chatSideBar.classList.add('chats__containerOpen');
+            chatSideBar.classList.remove('chats__containerClose');
+
+        }
+
+    }
+
 
     chatCreateCloseBtn.addEventListener("click", CloseNewChatLog)
 
@@ -177,5 +212,7 @@ const chatNewBtn = document.querySelector(".chatName__button")
     loginForm.addEventListener("submit", handleSubmit)
 
     chatForm.addEventListener("submit", sendMessage)
+
+    chatChangeBtn.addEventListener("click", ChangeNewContainerStatus)
 
 

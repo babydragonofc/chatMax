@@ -267,7 +267,7 @@ background-color: var(--line-clr);
 .chat__msgs {
 
     flex-grow: 1;
-    padding: 30px 30px 90px;
+    padding: 30px 30px 90px 12em;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -283,7 +283,7 @@ background-color: var(--line-clr);
 
 }
 
-.chats__container {
+.chats__containerOpen {
 
 display: flex;
 flex-direction: column;
@@ -292,6 +292,62 @@ width: 10em;
 border: solid 1px var(--line-clr);
 height: 100%;
 position: fixed;
+
+}
+
+#chats__sidebar > div {
+
+display: flex;
+justify-content: flex-end;
+margin: 1em;
+
+}
+
+.chats__containerClose {
+
+    display: flex;
+flex-direction: column;
+gap: 1em;
+width: 10em;
+border: solid 1px var(--line-clr);
+height: 100%;
+position: fixed;
+
+
+
+
+    div > button {
+
+        animation: rotate 200ms forwards;
+
+    }
+
+}
+
+@keyframes rotate {
+
+    0% {
+
+        transform: rotate(0deg);
+
+
+    }
+
+    100% {
+
+        transform: rotate(180deg);
+
+
+    }
+    
+}
+
+#chats__sidebar > div > button {
+
+background: none;
+border: none;
+width: 24px;
+height: 24px;
 
 }
 
@@ -439,8 +495,7 @@ padding: 1em;
     position: relative;
 }
 
-.heart:before,
-.heart:after {
+.heart:before, .heart:after {
     content: "";
     background-color: red;
     border-radius: 50%;
@@ -455,4 +510,10 @@ padding: 1em;
 
 .heart:after {
     left: 40px;
+}
+
+@media(max-width: 880px) {
+
+
+
 }
