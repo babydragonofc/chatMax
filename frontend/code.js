@@ -24,6 +24,9 @@ const chatChangeBtn = document.querySelector(".ChangeConteinerServers");
 const chatSideBar = document.querySelector("#chats__sidebar");
 
 //user
+
+var localChats = {}
+
     loginColor.value = "#ff0000"
 
     const user = { id: "", name: "", color: ""};
@@ -93,16 +96,24 @@ const chatSideBar = document.querySelector("#chats__sidebar");
 
             const { creatorId, creatorName, content } = JSON.parse(data);
 
-            newChatButton.textContent = newChatInfo.content;
+            const newChatButton = document.createElement("button"); 
 
-            console.log(newChatInfo);
+            newChatButton.innerHTML = content;
     
             websocket.send(JSON.stringify(newChatInfo));
     
-            chatCreateNameInput.value = ""; // Clear input field after sending message.
-    
-    
-        chatCreateConteiner.appendChild(newChatButton);
+            chatCreateConteiner.appendChild(newChatButton);
+
+            const chatNameId = "Chat-" + content;
+            const Chat = eval("{ " + chatNameId + ":{creatorId, creatorName, content} }")
+
+            Object.assign(localChats, Chat);
+
+            console.log(localChats)
+
+
+            localChats.push(content)
+
 
         }
 
@@ -154,7 +165,7 @@ const chatSideBar = document.querySelector("#chats__sidebar");
         chatCreateCard.style.display = "none";
     
         // Create the button *inside* the NewChatLog function.
-        const newChatButton = document.createElement("button"); 
+        
         
             const newChatInfo = {
                 type: "newChat",
@@ -163,7 +174,8 @@ const chatSideBar = document.querySelector("#chats__sidebar");
                 creatorName: user.name,
                 content: chatCreateNameInput.value // Get value from input field
             };
-    
+            chatCreateNameInput.value = ""; // Clear input field after sending message.
+
             websocket.send((JSON.stringify(newChatInfo)))
 
     }
