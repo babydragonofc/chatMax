@@ -100,8 +100,6 @@ var localChats = {}
 
             newChatButton.innerHTML = content;
     
-            websocket.send(JSON.stringify(newChatInfo));
-    
             chatCreateConteiner.appendChild(newChatButton);
 
             const chatNameId = "Chat-" + content;
