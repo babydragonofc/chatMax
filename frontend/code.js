@@ -104,12 +104,7 @@ var localChats = {}
 
             const chatNameId = "Chat-" + content;
 
-            chatNameId = "NomeId"
-        creatorId = "CreatorId"
-        creatorName = "CreatorName"
-        content = "Content"
-
-        const Chat = { [chatNameId]:{ creatorId: creatorId , creatorName: creatorName , ServerName:  content } }
+            const Chat = { [chatNameId]:{ creatorId: creatorId , creatorName: creatorName , ServerName:  content } }
            
             console.log(Chat)
 
