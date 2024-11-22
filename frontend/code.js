@@ -103,7 +103,13 @@ var localChats = {}
             chatCreateConteiner.appendChild(newChatButton);
 
             const chatNameId = "Chat-" + content;
-            const Chat = eval("{ " + chatNameId + ":{ creatorId:" + creatorId + ", creatorName:" + creatorName + ", ServerName:" +  content + "} }")
+
+            chatNameId = "NomeId"
+        creatorId = "CreatorId"
+        creatorName = "CreatorName"
+        content = "Content"
+
+        const Chat = { [chatNameId]:{ creatorId: creatorId , creatorName: creatorName , ServerName:  content } }
            
             console.log(Chat)
 
