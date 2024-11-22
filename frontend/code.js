@@ -104,6 +104,8 @@ var localChats = {}
 
             const chatNameId = "Chat-" + content;
             const Chat = eval("{ " + chatNameId + ":{ creatorId:" + creatorId + ", creatorName:" + creatorName + ", ServerName:" +  content + "} }")
+           
+            console.log(Chat)
 
             Object.assign(localChats, Chat);
 
