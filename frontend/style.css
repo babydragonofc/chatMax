@@ -26,6 +26,12 @@ font-family: "Geist Mono", monospace;
 
 }
 
+*::selection {
+
+    background-color: #d80808;
+
+}
+
 body {
 
 background-color: var(--base-clr);
@@ -103,14 +109,26 @@ display: flex;
 gap: 1em;
 
 }
+.profile__color {
+
+    width: auto;
+    height: 45.85px;
+    /* background-color: var(--base-clr); */
+    border-radius: 1em;
+    border: var(--line-clr) solid 1px;
+
+}
+
 .login__color {
 
-width: 30px;
-height: 30px;
-background-color: var(--base-clr);
-border-radius: 50%;
-border: var(--line-clr) solid 1px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--base-clr);
+    border-radius: 50%;
+    border: var(--line-clr) solid 1px;
+
 }
+
 
 input[type="color"]::-webkit-color-swatch-wrapper {
 	padding: 0;
@@ -182,7 +200,7 @@ opacity: 0.5;
 .chat__form{
 
 display: flex;
-gap: 0.5em;
+gap: 1em;
 border-top: solid 1px var(--line-clr);
 background-color: var(--base-clr);
 padding: 1em 0 1em 0;
@@ -191,8 +209,17 @@ justify-content: center;
 position: fixed;
 bottom: 0;
 left: 0;
+align-items: center;
+
+form {
+
+    display: flex;
+    gap: 1em;
 
 }
+
+}
+
 
 .chat__input{
 
@@ -293,6 +320,14 @@ border: solid 1px var(--line-clr);
 height: 100%;
 position: fixed;
 
+animation : slideIn 0.5s forwards;
+
+div > button {
+
+    animation: rotateback 200ms forwards;
+
+}
+
 }
 
 #chats__sidebar > div {
@@ -313,8 +348,7 @@ border: solid 1px var(--line-clr);
 height: 100%;
 position: fixed;
 
-
-
+animation : slideOut 0.5s forwards;
 
     div > button {
 
@@ -342,14 +376,110 @@ position: fixed;
     
 }
 
-#chats__sidebar > div > button {
 
-background: none;
-border: none;
-width: 24px;
-height: 24px;
+@keyframes rotateback {
+
+    0% {
+
+        transform: rotate(180deg);
+
+
+    }
+
+    100% {
+
+        transform: rotate(0deg);
+
+
+    }
+    
+}
+
+@keyframes slideIn {
+    
+    0% {
+
+        width: 5em;
+        
+    }
+
+    100% {
+
+        width: 10em;
+
+
+    }
 
 }
+
+@keyframes slideOut{
+
+    0% {
+
+        width: 10em;
+
+    }
+
+    100% {
+
+        width: 5em;
+
+    }
+
+}
+
+.ChangeConteinerServers {
+
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+
+}
+
+
+
+.ServerListOpen{
+
+    display: flex;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--line-clr);
+    
+    }
+    
+    .ServerListOpen svg {
+    
+        transform: scale(1);
+        fill: var(--text-clr);
+    
+    }
+
+
+.profileOpenBtn{
+
+    display: flex;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--line-clr);
+     
+    }
+    
+    .profileOpenBtn svg {
+    
+        transform: scale(1);
+        fill: var(--text-clr);
+    
+    }
+
 
 .chats__list{
 
@@ -357,27 +487,58 @@ height: 24px;
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin: 1em;
+    background-color: var(--hover-clr);
+    border-radius: 1em;
+    width: auto;
+    padding: 1em;
+    align-items: center;
 
+    max-height: 400px;
+    overflow-y: scroll;
+    
+}
+
+.chats__list::-webkit-scrollbar {
+
+width: 1em;
+
+}
+
+
+.chats__list::-webkit-scrollbar-track {
+
+border-radius: 0 1em 1em 0;
+background-color: var(--hover-clr);
+border: 1px solid var(--line-clr);
+
+}
+
+.chats__list::-webkit-scrollbar-thumb {
+
+    background-color: var(--line-clr);
+    border-radius: 0 1em 1em 0;
+    
 }
 
 .chats__list > button {
 
-    background-color: var(--base-clr);
+    background-color: var(--hover-clr);
     color: var(--text-clr);
     border: solid 1px var(--line-clr);
     padding: 0.5em;
     border-radius: 15px;
     transition: 100ms ease-in-out;
+    width: 15em;
 }
 
 .chats__list > button:hover{
 
-    background-color: var(--hover-clr);
+    background-color: var(--base-clr);
 
 }
 
-.chat__card {
+
+.cardUi {
 
     position: absolute;
     width: 100dvw;
@@ -386,7 +547,75 @@ height: 24px;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(2px);
+    z-index: 5;
 
+}
+
+.chats__container {
+
+    border: solid 1px var(--line-clr);
+    border-radius: 2em;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px);
+    backdrop-filter: opacity(-100%);
+    z-index: 5;
+    height: 30em;
+    width: 18em;
+    padding: 1em;
+    gap: 1em;
+
+}
+
+    #chat__btn__create {
+
+        background-color: var(--base-clr);
+        color: var(--text-clr);
+        border: solid 1px var(--line-clr);
+        padding: 0.5em;
+        border-radius: 15px;
+        transition: 100ms ease-in-out;      
+        width: 15em;
+        align-self: center;  
+
+    }
+
+    #chat__btn__create:hover{
+
+        background-color: var(--hover-clr);
+
+    }
+
+.ServerBtn {
+
+    background-color: var(--base-clr);
+    color: var(--text-clr);
+    border: solid 1px var(--line-clr);
+    padding: 0.5em;
+    border-radius: 15px;
+    transition: 100ms ease-in-out;      
+    width: 15em;
+    align-self: center;  
+    
+}
+
+.ChatsExitButon {
+
+    background: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    align-self: flex-end;
+    position: absolute;
+
+
+}
+
+.chats__container> section > form {
+
+
+    display: flex;
+    flex-direction: column;
 
 }
 
@@ -394,9 +623,10 @@ height: 24px;
 
     border: solid 1px var(--line-clr);
     border-radius: 2em;
-
+    display: flex;
     backdrop-filter: blur(5px);
     backdrop-filter: opacity(-100%);
+    z-index: 6;
 
 }
 
@@ -414,6 +644,54 @@ height: 24px;
 
 }
 
+
+
+.profile__edit__form {
+
+    border: solid 1px var(--line-clr);
+    border-radius: 2em;
+    backdrop-filter: blur(5px);
+    backdrop-filter: opacity(-100%);
+    z-index: 5;
+    background: var(--base-clr);
+
+}
+
+.profile__edit__form > section {
+
+    margin: 1em 2em 2em 2em;
+    display: flex;
+    gap: 1em;
+
+}
+
+.profile__edit__form > section > section > form {
+
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.profile__edit__form__header {
+
+display: flex;
+flex-direction: column;
+gap: 1em;
+
+}
+
+.profile__preview {
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+align-content: center;
+flex-wrap: wrap;
+
+}
+
 .chatName__input {
 
 border: solid 1px var(--line-clr);
@@ -421,6 +699,23 @@ background: var(--base-clr);
 color: var(--text-clr);
 border-radius: 1em;
 padding: 1em;
+}
+
+@keyframes errorBorder {
+    
+    0% { border-color: var(--accent-clr); }
+
+    100% { border-color: var(--line-clr); }
+
+}
+
+.profileName__input {
+
+    border: solid 1px var(--line-clr);
+    background: var(--base-clr);
+    color: var(--text-clr);
+    border-radius: 1em;
+    padding: 1em;    
 
 }
 
@@ -435,11 +730,23 @@ padding: 1em;
 
 }
 
-.chatName__button:hover , .chatName__input:hover {
+.profileEdit__button {
+
+    margin-top: 1em;
+    background-color: var(--base-clr);
+    border: solid 1px var(--line-clr);
+    padding: 0.5em;
+    color: var(--text-clr);
+    border-radius: 1em;
+
+}
+
+.chatName__button:hover , .chatName__input:hover , .profileName__input:hover {
 
     background-color: var(--hover-clr);
 
 }
+
 
 
 
@@ -456,6 +763,18 @@ padding: 1em;
 
 }
 
+.profileFormClose {
+
+    border: none;
+    background-color: transparent;
+    color: var(--accent-clr);
+    font-weight: 800;
+    height: 2em;
+    z-index: 2;
+    display: flex;
+    justify-content: flex-end;
+
+}
 .pulse {
   animation: pulse 0.7s infinite;
   margin: 0 auto;
@@ -512,8 +831,13 @@ padding: 1em;
     left: 40px;
 }
 
-@media(max-width: 880px) {
+@media(max-width: 500px) {
 
+.profile__edit__form > section {
 
+    flex-wrap: wrap;
+    flex-direction: column;
+
+}
 
 }

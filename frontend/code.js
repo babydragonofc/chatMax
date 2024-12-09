@@ -23,6 +23,24 @@ const chatNewBtn = document.querySelector(".chatName__button");
 const chatChangeBtn = document.querySelector(".ChangeConteinerServers");
 const chatSideBar = document.querySelector("#chats__sidebar");
 
+const chatListOpen = document.querySelector(".ServerListOpen");
+const chatListCard = document.querySelector(".chat__list__card");
+const chatListCloseBtn = document.querySelector(".ChatsExitButon");
+
+//profile change elements 
+const profileChangeName = document.querySelector(".name__preview")
+const profileChangeNameInput = document.querySelector(".profileName__input")
+const profileChangeColorInput = document.querySelector(".profile__color")
+const profileBtn = document.querySelector(".profileOpenBtn")
+const profileCard = document.querySelector(".profile__card")
+const profileCloseBtn = document.querySelector(".profileFormClose")
+const profileAcceptBtn = document.querySelector(".profileEdit__button")
+
+
+
+
+
+
 //user
 
 var localChats = {}
@@ -30,7 +48,6 @@ var localChats = {}
     loginColor.value = "#ff0000"
 
     const user = { id: "", name: "", color: ""};
-
 
     let websocket;
 
@@ -98,6 +115,7 @@ var localChats = {}
 
             const newChatButton = document.createElement("button"); 
 
+            newChatButton.classList.add("serverBtn");
             newChatButton.innerHTML = content;
     
             chatCreateConteiner.appendChild(newChatButton);
@@ -106,15 +124,9 @@ var localChats = {}
 
             const Chat = { [chatNameId]:{ creatorId: creatorId , creatorName: creatorName , ServerName:  content } }
            
-            console.log(Chat)
-
             Object.assign(localChats, Chat);
 
             console.log(localChats)
-
-
-            localChats.push(content)
-
 
         }
 
@@ -139,7 +151,7 @@ var localChats = {}
 
         console.log(user)
 
-        websocket.onopen = () => { websocket.send(`Usuário: ${user.name} entrou no chat!`)};
+        websocket.onopen = () => { websocket.send(JSON.stringify(`console.log("Usuário: ${user.name} entrou no chat!")`))};
     }
 
     const sendMessage = (event) => {
@@ -163,10 +175,12 @@ var localChats = {}
 
         event.preventDefault(); // Prevent form submission if the button is in a form.
     
-        chatCreateCard.style.display = "none";
-    
-        // Create the button *inside* the NewChatLog function.
+        if (chatCreateNameInput.value != "" && chatCreateNameInput.value != null &&  localChats.hasOwnProperty("Chat-" + chatCreateNameInput.value) == false)
+        {
+
+            chatCreateCard.style.display = "none";
         
+            // Create the button *inside* the NewChatLog function.
         
             const newChatInfo = {
                 type: "newChat",
@@ -175,10 +189,23 @@ var localChats = {}
                 creatorName: user.name,
                 content: chatCreateNameInput.value // Get value from input field
             };
+
             chatCreateNameInput.value = ""; // Clear input field after sending message.
 
             websocket.send((JSON.stringify(newChatInfo)))
+        }
 
+        else {
+
+            chatCreateNameInput.style.animation = "errorBorder 0.5s forwards";
+
+            setTimeout ( () =>{
+
+                chatCreateNameInput.style.animation = "none";
+
+            } , 500)
+
+        }
     }
     
     
@@ -194,7 +221,7 @@ var localChats = {}
     const CloseNewChatLog = () => {
 
         chatCreateCard.style.display = "none";
-
+        chatCreateNameInput.value = "";
     }
 
     const ChangeNewContainerStatus = () => {
@@ -213,6 +240,27 @@ var localChats = {}
 
     }
 
+    const ProfileOpen = () => {
+
+        profileCard.style.display = "flex";
+
+        profileChangeName.style.color = user.color;
+
+        profileChangeName.innerHTML = user.name;
+
+        profileChangeColorInput.value = user.color;
+
+    }
+
+    const AcceptProfile = () => {
+
+       user.color = profileChangeColorInput.value;
+       user.name = profileChangeNameInput.value;
+
+
+       profileCard.style.display = "none";
+
+    }
 
     chatCreateCloseBtn.addEventListener("click", CloseNewChatLog)
 
@@ -228,4 +276,38 @@ var localChats = {}
 
     chatChangeBtn.addEventListener("click", ChangeNewContainerStatus)
 
+    profileChangeNameInput.addEventListener("input", () => {
+        
+        profileChangeName.innerHTML = profileChangeNameInput.value;
+        
+        if(profileChangeNameInput.value == "") {
 
+            profileChangeName.innerHTML = user.name;
+
+        }
+
+    })
+
+    profileChangeColorInput.addEventListener("input", () => {
+        
+        profileChangeName.style.color = profileChangeColorInput.value;
+
+    })
+
+    profileBtn.addEventListener("click", ProfileOpen)
+
+    profileCloseBtn.addEventListener("click", () => {
+
+        profileCard.style.display = "none";
+
+    })
+
+    chatListOpen.addEventListener("click" , () => {
+        chatListCard.style.display = "flex";
+    })
+
+    chatListCloseBtn.addEventListener("click" , () => {
+        chatListCard.style.display = "none";
+    })
+
+    profileAcceptBtn.addEventListener( "click" , AcceptProfile)
